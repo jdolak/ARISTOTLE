@@ -4,6 +4,12 @@ CSE 40842 Project-1
 Will Erdman  : Networking  
 Jachob Dolak  : Base platform  
 Bobby Rizzo  :  Apps  
+## Building
+Clone this repository, cd into it, and run:
+```
+make
+```
+
 ## Proposal
 We will create a telnet bulletin board system using the C language. This will allow users to log into a remote machine over telnet and receive a dashboard displaying information. This will include a chat room and news feed.
 
