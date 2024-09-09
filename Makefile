@@ -4,8 +4,8 @@ CFLAGS = -g -std=gnu99 -Wall -Iinclude -lncurses
 
 all: aristotle
 
-aristotle: src/main.c
-	@$(CC) $(CFLAGS) -o $@ $<
+aristotle: src/*.c
+	@$(CC) $(CFLAGS) -o $@ $^
 
 clean:
 	-rm aristotle
