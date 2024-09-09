@@ -1,3 +1,4 @@
 aristotle
 **/*.o
 **/*.dSYM
+**/.DS_Store
