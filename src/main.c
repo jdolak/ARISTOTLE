@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "base.h"
+#include "server.h"
 
 int main( int argc, char *argv[] ){
 
@@ -14,5 +15,6 @@ int main( int argc, char *argv[] ){
     }
 
     start_screen();
+    run_server();
     return 0;
 }
