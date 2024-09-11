@@ -8,6 +8,8 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include "base.h"
+
 #define PORT 2323
 
 int run_server() {
@@ -76,6 +78,7 @@ int run_server() {
             fprintf(clifp, "This is a test write to client %d\n", getpid());
 
 			// TODO: give clifp to Jachob!
+            start_screen(clifp);
 
 		    fclose(clifp);
             exit(0);

@@ -1,13 +1,17 @@
 #include <ncurses.h>
 #include <string.h>
 #include <unistd.h>
-#include <stdarg.h>
 
 #include "base.h"
 
-int start_screen(){
-    initscr();
+int start_screen(FILE *fd){
 
+    if (fd == stdout) {
+        newterm(NULL, stdout, stdin);
+    } else {
+        newterm(NULL, fd, fd);
+    }
+    //setterm(scr);
 	print_center("Welcome to ARISTOTLE", 0, "");
 	refresh();
     sleep(1);
@@ -34,3 +38,4 @@ int print_center(const char *word, int y_offset, const char *word2){
 
     return 0;
 }
+
