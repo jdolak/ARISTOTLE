@@ -42,8 +42,8 @@ int print_center(const char *word, int y_offset, const char *word2){
 }
 
 int basic_chat(FILE *fd){
-    //int y_size, x_size;
-    //getmaxyx( stdscr, y_size, x_size );
+    int y_size, x_size;
+    getmaxyx( stdscr, y_size, x_size );
 
     char messages[256][256];
     int n_message = 0;
@@ -56,10 +56,11 @@ int basic_chat(FILE *fd){
         for (int i = 0; i <= n_message; i++){
             printw("%s\n", messages[i]);
         }
+        mvprintw(y_size - 1,0 ,"chat> ");
+        refresh();
         getstr(message);
         strcpy(messages[n_message], message);
         n_message++;
-        refresh();
     }
     return 0;
 
