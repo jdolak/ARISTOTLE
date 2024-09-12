@@ -25,7 +25,7 @@ int start_screen(FILE *fd){
     print_center("Welcome to ARISTOTLE %s", 0, name);
     sleep(1);
 
-    basic_chat(fd);
+    menu();
 	refresh();
 	endwin();
 
@@ -41,7 +41,7 @@ int print_center(const char *word, int y_offset, const char *word2){
     return 0;
 }
 
-int basic_chat(FILE *fd){
+int basic_chat(){
     int y_size, x_size;
     getmaxyx( stdscr, y_size, x_size );
 
@@ -66,3 +66,25 @@ int basic_chat(FILE *fd){
 
 }
 
+int menu(){
+    while(1){
+        clear();
+        printw("What would you like to do:\n");
+        printw("1) chat\n");
+        printw("q) quit\n");
+        printw("Select a number: ");
+
+        char selection;
+        selection = getch();
+
+        switch(selection){
+            case '1':
+                basic_chat();
+                break;
+            case 'q':
+                return 0;
+        }
+    }
+    return 0;
+
+}
