@@ -56,6 +56,7 @@ int print_center(const char *word, int y_offset, const char *word2){
 int basic_chat(WINDOW * win){
     int y_size, x_size;
     getmaxyx( win, y_size, x_size );
+    (void) x_size;
 
     char messages[256][256];
     int n_message = 0;
