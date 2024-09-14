@@ -101,3 +101,24 @@ int menu(WINDOW * win){
     return 0;
 
 }
+
+int telnet_naws(int sockfd, int *length, int *width){
+
+    uint8_t buffer[32];
+    char will_naws[] = "\xFF\xFD\x1F";
+
+    if (send(sockfd, will_naws, strlen(will_naws), 0) < 1) {
+        printf("Error in sending NAWS.\n");
+        printf("%s\n", strerror(errno));
+        return 1;
+    }
+    if (recv(sockfd, buffer, sizeof(buffer) - 1, 0) < 1) {
+        printf("Error in receiving NAWS.\n");
+        printf("%s\n", strerror(errno));
+        return 1;
+    }
+    *width = (buffer[6] << 8) | buffer[7];
+    *length = (buffer[8] << 8) | buffer[9];
+
+    return 0;
+}
