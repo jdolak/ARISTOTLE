@@ -15,6 +15,6 @@ int main( int argc, char *argv[] ){
         }
     }
     printf("Starting the Aristotle Server...\n");
-    run_server();
+    make_server();
     return 0;
 }
