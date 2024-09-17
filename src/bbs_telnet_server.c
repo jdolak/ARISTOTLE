@@ -8,7 +8,7 @@
 
 #include "base.h"
 
-#define PORT 2323
+#define PORT 9123
 #define MAX_CLIENTS 10
 #define BUFFER_SIZE 1024
 
@@ -105,12 +105,12 @@ void *handle_client(void *client_socket) {
     add_client(sock);
 
     // Send welcome message
-    char *welcome_message = "Welcome to the BBS server!\r\n";
-    send(sock, welcome_message, strlen(welcome_message), 0);
+    //char *welcome_message = "Welcome to the BBS server!\r\n";
+    //send(sock, welcome_message, strlen(welcome_message), 0);
 
     // Notify all clients about the new connection
-    char doorbell_message[] = "A new user has connected to the server.\n";
-    broadcast_message(doorbell_message);
+    //char doorbell_message[] = "A new user has connected to the server.\n";
+    //broadcast_message(doorbell_message);
 
     // Simple echo loop
    // while ((bytes_read = recv(sock, buffer, BUFFER_SIZE, 0)) > 0) {
