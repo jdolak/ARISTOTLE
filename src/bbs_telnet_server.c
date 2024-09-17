@@ -6,7 +6,9 @@
 #include <pthread.h>
 #include <signal.h>
 
-#define PORT 23
+#include "base.h"
+
+#define PORT 2323
 #define MAX_CLIENTS 10
 #define BUFFER_SIZE 1024
 
@@ -97,8 +99,8 @@ void handle_sigint(int sig) {
 
 void *handle_client(void *client_socket) {
     int sock = *(int*)client_socket;
-    char buffer[BUFFER_SIZE];
-    int bytes_read;
+    //char buffer[BUFFER_SIZE];
+    //int bytes_read;
 
     add_client(sock);
 
@@ -111,11 +113,14 @@ void *handle_client(void *client_socket) {
     broadcast_message(doorbell_message);
 
     // Simple echo loop
-    while ((bytes_read = recv(sock, buffer, BUFFER_SIZE, 0)) > 0) {
-        buffer[bytes_read] = '\0';
-        printf("Client: %s", buffer);  // Log client messages
-        send(sock, buffer, strlen(buffer), 0);  // Echo back
-    }
+   // while ((bytes_read = recv(sock, buffer, BUFFER_SIZE, 0)) > 0) {
+   //     buffer[bytes_read] = '\0';
+   //     printf("Client: %s", buffer);  // Log client messages
+   //     send(sock, buffer, strlen(buffer), 0);  // Echo back
+   // }
+
+    FILE* client_fp = fdopen(sock, "r+");
+    start_screen(client_fp);
     remove_client(sock);
     close(sock);
     return NULL;
