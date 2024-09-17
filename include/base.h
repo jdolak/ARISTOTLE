@@ -30,3 +30,4 @@ int menu(WINDOW *);
 int make_server(void);
 int telnet_naws(int, int *, int *);
 FILE* http_get(char*, char*);
+int weather();
