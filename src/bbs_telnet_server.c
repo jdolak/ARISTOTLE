@@ -120,8 +120,9 @@ void *handle_client(void *client_socket) {
    // }
 
     FILE* client_fp = fdopen(sock, "r+");
-    telnet_naws(sock, &win_size.x, &win_size.y);
+    telnet_naws(sock, &win_size.y, &win_size.x);
     start_screen(client_fp);
+    
     remove_client(sock);
     close(sock);
     return NULL;

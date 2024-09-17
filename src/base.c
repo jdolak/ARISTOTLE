@@ -15,11 +15,10 @@ int start_screen(FILE *fd){
 
     } else {
         newterm(NULL, fd, fd);
+        resizeterm(win_size.y, win_size.x);
         mode = SERVER;
     }
-    int y_size, x_size;
-    getmaxyx( stdscr, y_size, x_size );
-    //setterm(scr);
+
 	print_center("Welcome to ARISTOTLE", 0, "");
 	refresh();
     //sleep();
@@ -32,9 +31,9 @@ int start_screen(FILE *fd){
     clear();
     print_center("Welcome to ARISTOTLE %s", 0, name);
 
-    WINDOW *big_win = newwin(y_size -1, x_size / 2, 0, 0);
-    WINDOW *sm_win1 = newwin(y_size/2 , x_size / 2, 0, (x_size/2));
-    WINDOW *sm_win2 = newwin(y_size/2, x_size / 2, (y_size/2), (x_size /2));
+    WINDOW *big_win = newwin(win_size.y -1, win_size.x / 2, 0, 0);
+    WINDOW *sm_win1 = newwin(win_size.y/2 , win_size.x / 2, 0, (win_size.x/2));
+    WINDOW *sm_win2 = newwin(win_size.y/2, win_size.x / 2, (win_size.y/2), (win_size.x /2));
 
     refresh();
     box(big_win, 0, 0);
@@ -51,18 +50,12 @@ int start_screen(FILE *fd){
 }
 
 int print_center(const char *word, int y_offset, const char *word2){
-    int y_size, x_size;
-
-    getmaxyx( stdscr, y_size, x_size );
-    mvprintw(y_size/2 - y_offset, x_size/2 - strlen(word)/2, word, word2);
+    mvprintw(win_size.y/2 - y_offset, win_size.x/2 - strlen(word)/2, word, word2);
 
     return 0;
 }
 
 int basic_chat(WINDOW * win){
-    int y_size, x_size;
-    getmaxyx( win, y_size, x_size );
-    (void) x_size;
 
     char messages[256][256];
     int n_message = 0;
@@ -75,7 +68,7 @@ int basic_chat(WINDOW * win){
         for (int i = 0; i <= n_message; i++){
             mvwprintw(win,i+3,1, "%s\n", messages[i]);
         }
-        mvwprintw(win,y_size - 2,1 ,"chat> ");
+        mvwprintw(win,win_size.y - 2,1 ,"chat> ");
         wrefresh(win);
         wgetstr(win,message);
         strcpy(messages[n_message], message);
