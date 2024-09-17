@@ -8,7 +8,7 @@ aristotle: src/*.c
 	@$(CC) -o $@ $^ $(CFLAGS)
 
 check: aristotle
-	valgrind --leak-check=full ./your_program
+	valgrind --leak-check=full ./aristotle --local
 
 clean:
 	-rm aristotle
