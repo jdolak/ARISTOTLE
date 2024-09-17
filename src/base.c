@@ -159,6 +159,7 @@ int weather(){
         //fscanf(weatherfp, "detailedForecast", forecast);
         printf("%s\n", forecast);
         fclose(weatherfp);
-
+        // This can be modified to get future days forecasts as well
+        // This is just a proof of concept to base other apps off of
         return 0;
 }
