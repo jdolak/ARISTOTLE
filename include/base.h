@@ -19,6 +19,9 @@ enum {
     SERVER
 };
 
+char** msg_arr;
+int n_message;
+
 //int start_screen(FILE *);
 int start_screen(int);
 int print_center(const char*, int, const char*);

@@ -56,8 +56,7 @@ int print_center(const char *word, int y_offset, const char *word2){
 
 int basic_chat(WINDOW * win){
 
-    char messages[256][256];
-    int n_message = 0;
+    //char messages[256][256];
     char message[256];
 
     while(strcmp(message, "\\quit")){ // == 0) || (strcmp(message, "/quit") == 0)){
@@ -65,12 +64,12 @@ int basic_chat(WINDOW * win){
         box(win, 0, 0);
         mvwprintw(win,1,1, "WELCOME TO ARISTOTLE---<\\quit> to exit\n");
         for (int i = 0; i <= n_message; i++){
-            mvwprintw(win,i+3,1, "%s\n", messages[i]);
+            mvwprintw(win,i+3,1, "%s\n", msg_arr[i]);
         }
         mvwprintw(win,win_size.y - 2,1 ,"chat> ");
         wrefresh(win);
         wgetstr(win,message);
-        strcpy(messages[n_message], message);
+        strcpy(msg_arr[n_message], message);
         n_message++;
     }
     return 0;
