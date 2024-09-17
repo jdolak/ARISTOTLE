@@ -1,20 +1,19 @@
-#include <ncurses.h>
-#include <string.h>
-#include <unistd.h>
-
 #include "base.h"
 
 int mode;
+__thread Size win_size;
 
-int start_screen(FILE *fd){
+int start_screen(int fd){
 
-    if (fd == stdout) {
+    if (fd == 1) {
         newterm(NULL, stdout, stdin);
         getmaxyx( stdscr, win_size.y, win_size.x );
         mode = LOCAL;
 
     } else {
-        newterm(NULL, fd, fd);
+        FILE* fp = fdopen(fd, "r+");
+        telnet_naws(fd, &win_size.y, &win_size.x);
+        newterm(NULL, fp, fp);
         resizeterm(win_size.y, win_size.x);
         mode = SERVER;
     }

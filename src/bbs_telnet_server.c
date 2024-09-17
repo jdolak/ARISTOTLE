@@ -119,9 +119,7 @@ void *handle_client(void *client_socket) {
    //     send(sock, buffer, strlen(buffer), 0);  // Echo back
    // }
 
-    FILE* client_fp = fdopen(sock, "r+");
-    telnet_naws(sock, &win_size.y, &win_size.x);
-    start_screen(client_fp);
+    start_screen(sock);
     
     remove_client(sock);
     close(sock);

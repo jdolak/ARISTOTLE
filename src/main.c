@@ -10,7 +10,7 @@ int main( int argc, char *argv[] ){
 
     if (argc > 1) {
         if (!strcmp("--local", argv[1])) {
-            start_screen(stdout);
+            start_screen(1);
             return 0;
         }
     }
