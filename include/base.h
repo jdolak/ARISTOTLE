@@ -13,7 +13,7 @@ typedef struct Size {
     int x;
 } Size;
 
-extern Size win_size;
+Size win_size;
 
 enum {
     LOCAL,
