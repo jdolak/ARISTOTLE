@@ -7,6 +7,19 @@
 #include <sys/socket.h>
 #include <sys/errno.h>
 #include <stdlib.h>
+
+typedef struct Size {
+    int y;
+    int x;
+} Size;
+
+extern Size win_size;
+
+enum {
+    LOCAL,
+    SERVER
+};
+
 int start_screen(FILE *);
 int print_center(const char*, int, const char*);
 int basic_chat(WINDOW *);

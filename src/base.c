@@ -4,12 +4,18 @@
 
 #include "base.h"
 
+int mode;
+
 int start_screen(FILE *fd){
 
     if (fd == stdout) {
         newterm(NULL, stdout, stdin);
+        getmaxyx( stdscr, win_size.y, win_size.x );
+        mode = LOCAL;
+
     } else {
         newterm(NULL, fd, fd);
+        mode = SERVER;
     }
     int y_size, x_size;
     getmaxyx( stdscr, y_size, x_size );
