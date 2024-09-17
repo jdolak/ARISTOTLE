@@ -122,3 +122,17 @@ int telnet_naws(int sockfd, int *length, int *width){
 
     return 0;
 }
+
+FILE* http_get(char* url, char* outfile){
+    // Build the command
+    char* wget = "wget -q -o ";
+    char* wget2 = strstr(wget, outfile);
+    char* wget3 = strstr(wget2, " ");
+    char* cmd = strstr(wget3, url);
+
+    // Execute the command
+    system(cmd);
+    
+    FILE* fp = fopen("tmp", "r");
+    return fp;
+}
