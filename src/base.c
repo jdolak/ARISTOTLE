@@ -62,7 +62,7 @@ int basic_chat(WINDOW * win){
     int n_message = 0;
     char message[256];
 
-    while(strcmp(message, "\\quit") || strcmp(message, "/quit")){
+    while(strcmp(message, "\\quit")){ // == 0) || (strcmp(message, "/quit") == 0)){
         wclear(win);
         box(win, 0, 0);
         mvwprintw(win,1,1, "WELCOME TO ARISTOTLE---<\\quit> to exit\n");
