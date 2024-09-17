@@ -120,16 +120,45 @@ int telnet_naws(int sockfd, int *length, int *width){
     return 0;
 }
 
-FILE* http_get(char* url, char* outfile){
-    // Build the command
-    char* wget = "wget -q -o ";
-    char* wget2 = strstr(wget, outfile);
-    char* wget3 = strstr(wget2, " ");
-    char* cmd = strstr(wget3, url);
+FILE* http_get(char* url, char* of){
+        // Build the command
+        char* wget = "wget -q -O ";
+        char* space = " ";
+        char cmd[256];
+        snprintf(cmd, sizeof(cmd), "%s%s%s%s", wget, of, space, url);
+        //printf("%s", cmd);
+        // Execute the command
+        system(cmd);
 
-    // Execute the command
-    system(cmd);
-    
-    FILE* fp = fopen("tmp", "r");
-    return fp;
+        FILE* fp = fopen(of, "r");
+        return fp;
+}
+
+
+
+
+int weather(){
+        char* url = "https://api.weather.gov/gridpoints/IWX/30,64/forecast";
+        char* outfile = "weather.txt";
+        FILE* weatherfp = http_get(url, outfile);
+        char* forecast = "";
+        char* line = NULL;
+        size_t len = 0;
+        ssize_t read;
+        if (weatherfp == NULL) exit(EXIT_FAILURE);
+        while ((read = getline(&line, &len, weatherfp)) != -1) {
+            if(strstr(line, "detailedForecast")){
+                 //printf("%s", line);
+                 break;
+            }
+        }
+        forecast = strchr(line, ':');
+        forecast = strchr(forecast, '"');
+        forecast++;
+        forecast = strtok(forecast, "\"");
+        //fscanf(weatherfp, "detailedForecast", forecast);
+        printf("%s\n", forecast);
+        fclose(weatherfp);
+
+        return 0;
 }
