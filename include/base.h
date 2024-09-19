@@ -36,4 +36,3 @@ int weather(WINDOW *);
 int nationalDebt(WINDOW *);
 int cmd_prompt(WINDOW *, WINDOW **);
 int ascii_print(WINDOW* win);
-int rss_feed(WINDOW * );

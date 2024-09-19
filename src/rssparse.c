@@ -1,10 +1,7 @@
-<<<<<<< HEAD:src/RSS_parsing.c
 #include <stdio.h>
 #include <libxml/parser.h>
 #include <string.h>
-=======
 #include "rssparse.h"
->>>>>>> 64c8fc2 (rss windowed):src/rssparse.c
 
 void parseRSS(const char *url, WINDOW * win, int y, int x) {
     xmlDoc *doc = NULL;
@@ -42,6 +39,27 @@ void parseRSS(const char *url, WINDOW * win, int y, int x) {
     xmlFreeDoc(doc);
     xmlCleanupParser();
 }
+
+int rss_feed(WINDOW * win){
+
+    wclear(win);
+
+    const char *rss_feeds[] = {
+        "https://rdr453.github.io/rrizzo-blog/feed.xml",
+        "https://werdman25.wordpress.com/feed/",
+        "",
+        NULL // Marks end of the array
+    };
+
+    for (int i = 0; rss_feeds[i] != NULL; i++) {
+        parseRSS(rss_feeds[i], win, 1, 1);
+    }
+    box(win, 0,0);
+    wrefresh(win);
+    return 0;
+
+}
+
 /*
 int main() {
     const char *rss_feeds[] = {
@@ -58,3 +76,5 @@ int main() {
     return 0;
 }
 */
+
+

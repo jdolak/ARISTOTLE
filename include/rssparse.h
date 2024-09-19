@@ -4,3 +4,5 @@
 #include <ncurses.h>
 
 void parseRSS(const char *url, WINDOW * win, int y, int x);
+int rss_feed(WINDOW * win);
+

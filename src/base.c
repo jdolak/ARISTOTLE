@@ -322,23 +322,3 @@ int ascii_print(WINDOW* win){
     wrefresh(win);
     return 0;
 }
-
-int rss_feed(WINDOW * win){
-
-    wclear(win);
-
-    const char *rss_feeds[] = {
-        //"https://rdr453.github.io/rrizzo-blog/feed.xml",
-        "https://werdman25.wordpress.com/feed/",
-        "",
-        NULL // Marks end of the array
-    };
-
-    for (int i = 0; rss_feeds[i] != NULL; i++) {
-        parseRSS(rss_feeds[i], win, 1, 1);
-    }
-    box(win, 0,0);
-    wrefresh(win);
-    return 0;
-
-}
