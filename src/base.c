@@ -32,8 +32,8 @@ int start_screen(int fd){
 
     WINDOW *big_win = newwin(win_size.y -4, win_size.x / 2, 0, 0);
     WINDOW *sm_win1 = newwin((win_size.y/2)-2 , win_size.x / 2, 0, (win_size.x/2));
-    WINDOW *sm_win2 = newwin(win_size.y/2, win_size.x / 2, (win_size.y/2)-2, (win_size.x /2)-2);
-    WINDOW *cmd_bar = newwin(3, win_size.x / 2, 0, 0);
+    WINDOW *sm_win2 = newwin(win_size.y/2, win_size.x / 2, (win_size.y/2)-2, (win_size.x /2));
+    WINDOW *cmd_bar = newwin(3, win_size.x, win_size.y - 3, 0);
 
     refresh();
     box(big_win, 0, 0);
@@ -45,7 +45,10 @@ int start_screen(int fd){
     box(cmd_bar, 0, 0);
     wrefresh(cmd_bar);
 
-    menu(big_win);
+    WINDOW *win_arr[] = {big_win, sm_win1, sm_win2, cmd_bar}; 
+
+    weather(sm_win1);
+    menu(big_win, win_arr);
 
 	refresh();
 	endwin();
@@ -74,7 +77,7 @@ int basic_chat(WINDOW * win){
         for (int i = 0; i <= n_message; i++){
             mvwprintw(win,i+3,1, "%s\n", msg_arr[i]);
         }
-        mvwprintw(win, y_size - 1,1 ,"chat> ");
+        mvwprintw(win, y_size - 2,1 ,"chat> ");
         wrefresh(win);
         wgetstr(win,message);
         strcpy(msg_arr[n_message], message);
@@ -84,11 +87,14 @@ int basic_chat(WINDOW * win){
 
 }
 
-int menu(WINDOW * win){
+int menu(WINDOW * win, WINDOW ** win_arr){
     while(1){
         wclear(win);
         wprintw(win, "What would you like to do:\n");
-        wprintw(win,"1) chat\n");
+        wprintw(win,"1) command prompt\n");
+        wprintw(win,"2) chat\n");
+        wprintw(win,"3) weather\n");
+        wprintw(win,"4) national dept\n");
         wprintw(win,"q) quit\n");
         wprintw(win,"Select a number: ");
         wrefresh(win);
@@ -97,7 +103,18 @@ int menu(WINDOW * win){
 
         switch(selection){
             case '1':
+                cmd_prompt(win_arr[3], win_arr);
+                break;
+            case '2':
                 basic_chat(win);
+                break;
+            case '3':
+                weather(win);
+                cmd_prompt(win_arr[3], win_arr);
+                break;
+            case '4':
+                nationalDebt(win);
+                cmd_prompt(win_arr[3], win_arr);
                 break;
             case 'q':
                 return 0;
@@ -145,7 +162,7 @@ FILE* http_get(char* url, char* of){
 
 
 
-int weather(){
+int weather(WINDOW * win){
         char* url = "https://api.weather.gov/gridpoints/IWX/30,64/forecast";
         char* outfile = "weather.txt";
         FILE* weatherfp = http_get(url, outfile);
@@ -154,6 +171,13 @@ int weather(){
         size_t len = 0;
         ssize_t read;
         int n = 0;
+        int line_no = 2;
+
+        //int y, x;
+        //getbegyx(win,y,x);
+
+        wclear(win);
+        box(win, 0,0);
         if (weatherfp == NULL) return(4);
         while ((read = getline(&line, &len, weatherfp)) != -1) {
             if(strstr(line, "detailedForecast")){
@@ -165,8 +189,14 @@ int weather(){
                 forecast = strchr(forecast, '"');
                 forecast++;
                 forecast = strtok(forecast, "\"");
+                for(int i = 0; i <= strlen(forecast); i++){
+                    if(forecast[i] == '.'){
+                    forecast[i] = '\n';
+                }
+   }
         //fscanf(weatherfp, "detailedForecast", forecast);
-                printf("%s\n", forecast);
+                mvwprintw(win, line_no, 1, "%s\n", forecast);
+                line_no++;
                 n++;
 
             }
@@ -175,7 +205,8 @@ int weather(){
                 forecast = strchr(forecast, '"');
                 forecast++;
                 forecast = strtok(forecast, "\"");
-                printf("%s\n", forecast);
+                mvwprintw(win, line_no, 1, "%s\n", forecast);
+                line_no++;
                 n++;
             }
 
@@ -183,10 +214,15 @@ int weather(){
         }
         fclose(weatherfp);
         
+        wrefresh(win);
         return 0;
 }
 
-int nationalDebt(){
+int nationalDebt(WINDOW * win){
+
+        wclear(win);
+        box(win, 0,0);
+
         char* url = "https://www.pgpf.org/national-debt-clock";
         char* outfile = "nationaldebt.html";
         FILE* debtfp = http_get(url, outfile);
@@ -207,12 +243,43 @@ int nationalDebt(){
                 //forecast++;
                 debt = strtok(debt, "<");
         //fscanf(weatherfp, "detailedForecast", forecast);
-                printf("The current national debt is:\n%s\n", debt);
+                mvwprintw(win, 2, 1, "The current national debt is:\n%s\n", debt);
                 break;
 
             }
 
         }
+        wrefresh(win);
         fclose(debtfp);
+
+        return 0;
+}
+
+int cmd_prompt(WINDOW * win, WINDOW ** win_arr){
+
+        //char cmd[256];
+
+        wclear(win);
+        box(win, 0,0);
+        mvwprintw(win, 1, 1, "cmd> ");
+        wrefresh(win);
+        
+        //wgetstr(win,cmd);
+        char win_n = getch();
+        
+        switch(win_n){
+            case '1':
+                menu(win_arr[0], win_arr);
+                break;
+            case '2':
+                menu(win_arr[1], win_arr);
+                break;
+            case '3':
+                menu(win_arr[2], win_arr);
+                break;
+            case 'q':
+                return 0;
+        }
+
         return 0;
 }
