@@ -96,6 +96,7 @@ int menu(WINDOW * win, WINDOW ** win_arr){
         wprintw(win,"2) chat\n");
         wprintw(win,"3) weather\n");
         wprintw(win,"4) national dept\n");
+        wprintw(win,"5) inspirational messages\n");
         wprintw(win,"q) quit\n");
         wprintw(win,"Select a number: ");
         wrefresh(win);
@@ -115,6 +116,10 @@ int menu(WINDOW * win, WINDOW ** win_arr){
                 break;
             case '4':
                 nationalDebt(win);
+                cmd_prompt(win_arr[3], win_arr);
+                break;
+            case '5':
+                ascii_print(win);
                 cmd_prompt(win_arr[3], win_arr);
                 break;
             case 'q':
@@ -287,4 +292,27 @@ int cmd_prompt(WINDOW * win, WINDOW ** win_arr){
         }
 
         return 0;
+}
+
+int ascii_print(WINDOW* win){
+    int r = rand() % 3;
+
+    wclear(win);
+    char filename[64];
+    sprintf(filename,"./ascii/%d.txt", r);
+    FILE *fp = fopen(filename, "r");
+
+    char buff[BUFSIZ];
+
+    int line_n = 1;
+
+    while(fgets(buff, BUFSIZ, fp)) {
+        mvwprintw(win, line_n, 2, "%s", buff);
+        line_n++;
+    }
+
+    fclose(fp);
+    box(win, 0,0);
+    wrefresh(win);
+    return 0;
 }

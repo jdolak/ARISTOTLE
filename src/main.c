@@ -25,6 +25,7 @@ int main( int argc, char *argv[] ){
 
     msg_arr = make_chat_arr(); 
     n_message = 0;
+    srand(time(NULL));
 
     if (argc > 1) {
         if (!strcmp("--local", argv[1])) {

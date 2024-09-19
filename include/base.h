@@ -8,6 +8,8 @@
 #include <sys/errno.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <time.h>
+#include <stdlib.h>
 
 typedef struct Size {
     int y;
@@ -33,3 +35,4 @@ FILE* http_get(char*, char*);
 int weather(WINDOW *);
 int nationalDebt(WINDOW *);
 int cmd_prompt(WINDOW *, WINDOW **);
+int ascii_print(WINDOW* win);
