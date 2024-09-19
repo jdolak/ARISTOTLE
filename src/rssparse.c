@@ -1,10 +1,16 @@
+<<<<<<< HEAD:src/RSS_parsing.c
 #include <stdio.h>
 #include <libxml/parser.h>
 #include <string.h>
+=======
+#include "rssparse.h"
+>>>>>>> 64c8fc2 (rss windowed):src/rssparse.c
 
-void parseRSS(const char *url) {
+void parseRSS(const char *url, WINDOW * win, int y, int x) {
     xmlDoc *doc = NULL;
     xmlNode *root_element = NULL;
+    
+    int line_n = 1;
     
     doc = xmlReadFile(url, NULL, 0);
     if (doc == NULL) {
@@ -18,22 +24,26 @@ void parseRSS(const char *url) {
             for (xmlNode *child = node->children; child; child = child->next) {
                 if (child->type == XML_ELEMENT_NODE) {
                     if (strcmp((char *)child->name, "title") == 0) {
-                        printf("Title: %s\n", xmlNodeGetContent(child));
+                        mvwprintw(win, line_n + y, x, "Title: %s\n", xmlNodeGetContent(child));
+                        line_n++;
                     } else if (strcmp((char *)child->name, "link") == 0) {
-                        printf("Link: %s\n", xmlNodeGetContent(child));
+                        mvwprintw(win, line_n + y, x, "Link: %s\n", xmlNodeGetContent(child));
+                        line_n++;
                     } else if (strcmp((char *)child->name, "pubDate") == 0) {
-                        printf("Published: %s\n", xmlNodeGetContent(child));
+                        mvwprintw(win, line_n + y, x, "Published: %s\n", xmlNodeGetContent(child));
+                        line_n++;
                     }
                 }
             }
         }
     }
 
+
     xmlFreeDoc(doc);
     xmlCleanupParser();
 }
-
-int parseFeeds() {
+/*
+int main() {
     const char *rss_feeds[] = {
         "https://rdr453.github.io/rrizzo-blog/feed.xml",
         "",
@@ -47,3 +57,4 @@ int parseFeeds() {
 
     return 0;
 }
+*/

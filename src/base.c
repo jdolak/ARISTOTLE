@@ -1,4 +1,5 @@
 #include "base.h"
+#include "rssparse.h"
 
 int mode;
 __thread Size win_size;
@@ -97,6 +98,7 @@ int menu(WINDOW * win, WINDOW ** win_arr){
         wprintw(win,"3) weather\n");
         wprintw(win,"4) national dept\n");
         wprintw(win,"5) inspirational messages\n");
+        wprintw(win,"6) deep insights\n");
         wprintw(win,"q) quit\n");
         wprintw(win,"Select a number: ");
         wrefresh(win);
@@ -120,6 +122,10 @@ int menu(WINDOW * win, WINDOW ** win_arr){
                 break;
             case '5':
                 ascii_print(win);
+                cmd_prompt(win_arr[3], win_arr);
+                break;
+            case '6':
+                rss_feed(win);
                 cmd_prompt(win_arr[3], win_arr);
                 break;
             case 'q':
@@ -315,4 +321,24 @@ int ascii_print(WINDOW* win){
     box(win, 0,0);
     wrefresh(win);
     return 0;
+}
+
+int rss_feed(WINDOW * win){
+
+    wclear(win);
+
+    const char *rss_feeds[] = {
+        //"https://rdr453.github.io/rrizzo-blog/feed.xml",
+        "https://werdman25.wordpress.com/feed/",
+        "",
+        NULL // Marks end of the array
+    };
+
+    for (int i = 0; rss_feeds[i] != NULL; i++) {
+        parseRSS(rss_feeds[i], win, 1, 1);
+    }
+    box(win, 0,0);
+    wrefresh(win);
+    return 0;
+
 }
