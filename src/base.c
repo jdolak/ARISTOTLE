@@ -145,21 +145,66 @@ int weather(){
         char* line = NULL;
         size_t len = 0;
         ssize_t read;
-        if (weatherfp == NULL) exit(EXIT_FAILURE);
+        int n = 0;
+        if (weatherfp == NULL) return(4);
         while ((read = getline(&line, &len, weatherfp)) != -1) {
             if(strstr(line, "detailedForecast")){
                  //printf("%s", line);
-                 break;
-            }
-        }
-        forecast = strchr(line, ':');
-        forecast = strchr(forecast, '"');
-        forecast++;
-        forecast = strtok(forecast, "\"");
+
+
+
+                forecast = strchr(line, ':');
+                forecast = strchr(forecast, '"');
+                forecast++;
+                forecast = strtok(forecast, "\"");
         //fscanf(weatherfp, "detailedForecast", forecast);
-        printf("%s\n", forecast);
+                printf("%s\n", forecast);
+                n++;
+
+            }
+            if (strstr(line, "name")){
+                forecast = strchr(line, ':');
+                forecast = strchr(forecast, '"');
+                forecast++;
+                forecast = strtok(forecast, "\"");
+                printf("%s\n", forecast);
+                n++;
+            }
+
+            if (n >= 6) break;
+        }
         fclose(weatherfp);
-        // This can be modified to get future days forecasts as well
-        // This is just a proof of concept to base other apps off of
+        
+        return 0;
+}
+
+int nationalDebt(){
+        char* url = "https://www.pgpf.org/national-debt-clock";
+        char* outfile = "nationaldebt.html";
+        FILE* debtfp = http_get(url, outfile);
+        char* debt = "";
+        char* line = NULL;
+        size_t len = 0;
+        ssize_t read;
+
+        if (debtfp == NULL) return(4);
+        while ((read = getline(&line, &len, debtfp)) != -1) {
+            if(strstr(line, "ticker-text")){
+                 //printf("%s", line);
+
+
+
+                debt = strchr(line, '$');
+                //forecast = strchr(forecast, '"');
+                //forecast++;
+                debt = strtok(debt, "<");
+        //fscanf(weatherfp, "detailedForecast", forecast);
+                printf("The current national debt is:\n%s\n", debt);
+                break;
+
+            }
+
+        }
+        fclose(debtfp);
         return 0;
 }
