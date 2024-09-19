@@ -1,6 +1,6 @@
 CC = gcc
 
-CFLAGS = -g -std=gnu99 -Wall -Iinclude -lncurses -pthread
+CFLAGS = -g -std=gnu99 -Wall -Iinclude -lncurses -pthread -lxml2
 
 all: aristotle
 
