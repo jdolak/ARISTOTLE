@@ -266,6 +266,8 @@ int cmd_prompt(WINDOW * win, WINDOW ** win_arr){
         
         //wgetstr(win,cmd);
         char win_n = getch();
+
+        //int i = 0;
         
         switch(win_n){
             case '1':
@@ -279,6 +281,8 @@ int cmd_prompt(WINDOW * win, WINDOW ** win_arr){
                 break;
             case 'q':
                 return 0;
+            default:
+                cmd_prompt(win, win_arr);
         }
 
         return 0;
