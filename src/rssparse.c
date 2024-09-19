@@ -12,6 +12,8 @@ void parseRSS(const char *url, WINDOW * win, int y, int x) {
     doc = xmlReadFile(url, NULL, 0);
     if (doc == NULL) {
         printf("Failed to parse the RSS feed from %s.\n", url);
+        mvwprintw(win, line_n + y, x, "If u are reading this something failed,\n  there was supposed to be an RSS feed here.\n  Pls pretend...");
+        line_n++;
         return;
     }
 
