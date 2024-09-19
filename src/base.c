@@ -100,7 +100,7 @@ int menu(WINDOW * win, WINDOW ** win_arr){
         wprintw(win,"Select a number: ");
         wrefresh(win);
         char selection;
-        selection = getch();
+        selection = wgetch(win);
 
         switch(selection){
             case '1':
@@ -266,7 +266,7 @@ int cmd_prompt(WINDOW * win, WINDOW ** win_arr){
         wrefresh(win);
         
         //wgetstr(win,cmd);
-        char win_n = getch();
+        char win_n = wgetch(win);
 
         //int i = 0;
         
