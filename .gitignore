@@ -2,3 +2,5 @@ aristotle
 **/*.o
 **/*.dSYM
 **/.DS_Store
+**/*.html
+**/weather.txt
