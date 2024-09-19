@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <libxml/parser.h>
+#include <string.h>
 
 void parseRSS(const char *url) {
     xmlDoc *doc = NULL;
@@ -32,7 +33,7 @@ void parseRSS(const char *url) {
     xmlCleanupParser();
 }
 
-int main() {
+int parseFeeds() {
     const char *rss_feeds[] = {
         "https://rdr453.github.io/rrizzo-blog/feed.xml",
         "",
