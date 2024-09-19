@@ -72,14 +72,15 @@ int basic_chat(WINDOW * win){
 
     while(strcmp(message, "\\quit")){ // == 0) || (strcmp(message, "/quit") == 0)){
         wclear(win);
-        box(win, 0, 0);
         mvwprintw(win,1,1, "WELCOME TO ARISTOTLE---<\\quit> to exit\n");
         for (int i = 0; i <= n_message; i++){
             mvwprintw(win,i+3,1, "%s\n", msg_arr[i]);
         }
         mvwprintw(win, y_size - 2,1 ,"chat> ");
+        box(win, 0, 0);
         wrefresh(win);
         wgetstr(win,message);
+        if (strcmp(message, "\\quit") == 0) { return 0; }
         strcpy(msg_arr[n_message], message);
         n_message++;
     }
@@ -177,7 +178,6 @@ int weather(WINDOW * win){
         //getbegyx(win,y,x);
 
         wclear(win);
-        box(win, 0,0);
         if (weatherfp == NULL) return(4);
         while ((read = getline(&line, &len, weatherfp)) != -1) {
             if(strstr(line, "detailedForecast")){
@@ -214,6 +214,7 @@ int weather(WINDOW * win){
         }
         fclose(weatherfp);
         
+        box(win, 0,0);
         wrefresh(win);
         return 0;
 }
@@ -243,7 +244,7 @@ int nationalDebt(WINDOW * win){
                 //forecast++;
                 debt = strtok(debt, "<");
         //fscanf(weatherfp, "detailedForecast", forecast);
-                mvwprintw(win, 2, 1, "The current national debt is:\n%s\n", debt);
+                mvwprintw(win, 2, 2, "The current national debt is:\n%s\n", debt);
                 break;
 
             }
